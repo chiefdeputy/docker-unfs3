@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER Mitchell Hewes <me@mitcdh.com>
+MAINTAINER Nimbix, Inc. <support@nimbix.net>
 
 RUN apk --update add \
     unfs3 \
