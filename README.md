@@ -1,23 +1,58 @@
-# UNF3 for Docker
+# UNFS3 for Docker (in Kubernetes)
 
-Quick container to throw up an nfs service for inside a docker managed network. Uses UNFS3.
-
-Intended to provide an NFS share for convoy-nfs in Rancher.
+Intended to provide an NFS service for a PersistentVolumeClaim in Kubernetes.
 
 ### Usage
-#### Running the Docker Container
+
+#### Kubernetes Pod and Service example
 ````
-nfsservice:
-  image: mitcdh/unfs3
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unfs3
+  labels:
+    app: unfs3
+  spec:
+    containers:
+    - name: unfs3
+      image: nimbix/unfs3
+      imagePullPolicy: Always
+      volumeMounts:
+      - mountPath: /export
+        name: export-vol
+  restartPolicy: Always
   volumes:
-  - /sync/rancher-nfs:/export
+    - name: export-vol
+  persistentVolumeClaim:
+    claimName: mypvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unfs3
+spec:
+  type: ClusterIP
+  ports:
+  - name: tcp111
+    port: 111
+    targetPort: 111
+    protocol: TCP
+  - name: udp111
+    port: 111
+    targetPort: 111
+    protocol: UDP
+  - name: tcp2049
+    port: 2049
+    targetPort: 2049
+    protocol: TCP
+  - name: udp2049
+    port: 2049
+    targetPort: 2049
+    protocol: UDP
+  selector:
+    app: unfs3
 ````
-
-### Structure
-* `/export`: Directory exported over NFS
-
-### Exposed Ports
-* `111/udp 111/tcp 2049/tcp 2049/udp`: rpcbind and nfs server ports
+Mount the `/export` path from the service's `ClusterIP` after creation.  Note that the `PersistentVolumeClaim` must exist and should be referred to in the pod spec as whatever you named it.
 
 ### Credits
-* [voobscout/unfs3](https://github.com/voobscout/unfs3)
+* [mitcdh/docker-unfs3](https://github.com/mitcdh/docker-unfs3)
