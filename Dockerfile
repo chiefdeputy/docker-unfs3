@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.6
 MAINTAINER Nimbix, Inc. <support@nimbix.net>
 
 RUN apk --update add \
