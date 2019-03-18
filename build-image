@@ -127,13 +127,13 @@ if [ -n "$PUSH_MANIFEST" ]; then
         IMAGES+="$MANIFEST_LIST-$arch "
     done
     echo; echo "*** Creating manifest list $MANIFEST_LIST ($MANIFEST_ARCHES)..."
-    docker manifest create $MANIFEST_LIST $IMAGES
+    docker manifest create -a $MANIFEST_LIST $IMAGES
     echo; echo "*** Pushing manifest list $MANIFEST_LIST..."
     docker manifest push $MANIFEST_LIST
 
     if [ -n "$PUSH_LATEST" ]; then
         echo; echo "*** Creating manifest list $MANIFEST_LIST_LATEST ($MANIFEST_ARCHES)..."
-        docker manifest create $MANIFEST_LIST_LATEST $IMAGES
+        docker manifest create -a $MANIFEST_LIST_LATEST $IMAGES
         echo; echo "*** Pushing manifest list $MANIFEST_LIST_LATEST..."
         docker manifest push $MANIFEST_LIST_LATEST
     fi
