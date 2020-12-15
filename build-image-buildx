@@ -21,7 +21,7 @@ OUTPUT=
 ARCH=$(arch)
 [ "$ARCH" = "x86_64" ] && ARCH=amd64
 
-function print_usage {
+function echo_usage {
     cat <<EOF
 Usage:
   $0 --name <image-name> [options]
