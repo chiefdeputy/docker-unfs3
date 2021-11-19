@@ -6,8 +6,8 @@ NAME=
 VERSION=$(date +%Y%m%d)
 RELEASE=1
 
-REGISTRY=gcr.io
-REPO=jarvice
+REGISTRY=us-docker.pkg.dev
+REPO=jarvice/images
 
 PUSH_LATEST=
 PUSH_MANIFEST=
