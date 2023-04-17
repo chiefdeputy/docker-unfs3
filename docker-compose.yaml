@@ -1,0 +1,20 @@
+version: '2.4'
+services:
+    server:
+        build: .
+        init: true
+        restart: unless-stopped
+        network_mode: bridge
+        environment:
+            - TZ=Europe/Berlin
+            - UID=1000
+            - GID=1000
+        volumes:
+            - './export:/export'
+        labels:
+            com.centurylinklabs.watchtower.enable: "false"
+        ports:
+            - "111:111/udp"
+            - "111:111"
+            - "2049:2049/udp"
+            - "2049:2049"
